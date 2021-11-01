@@ -87,7 +87,7 @@ PROJECT = ch
 
 # Imported source files and paths
 CHIBIOS = ./dep/chibios
-CHIBIOS_CONTRIB = $(CHIBIOS)/../chibios-contrib/
+CHIBIOS_CONTRIB = $(CHIBIOS)/../chibios-contrib
 # Licensing files.
 include $(CHIBIOS)/os/license/license.mk
 # Startup files.
@@ -100,8 +100,8 @@ include $(CHIBIOS_CONTRIB)/os/hal/boards/PJRC_TEENSY_4_1/board.mk
 include $(CHIBIOS)/os/hal/osal/rt-nil/osal.mk
 # RTOS files (optional).
 include $(CHIBIOS)/os/rt/rt.mk
-include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
-# include $(CHIBIOS)/os/common/ports/ARMv7-M-ALT/compilers/GCC/mk/port_v7m.mk
+# include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
+include $(CHIBIOS)/os/common/ports/ARMv7-M/compilers/GCC/mk/port.mk
 # Other files (optional).
 include $(CHIBIOS_CONTRIB)/os/common/ports/ARMCMx/compilers/GCC/utils/fault_handlers_v7m.mk
 # include $(CHIBIOS_CONTRIB)/os/common/ports/ARMv7-M-ALT/compilers/GCC/utils/fault_handlers_v7m.mk
@@ -223,5 +223,5 @@ ULIBS =
 ##############################################################################
 
 RULESPATH = $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/mk
-# RULESPATH = $(CHIBIOS)/os/common/startup/ARMv7-M-ALT/compilers/GCC/mk
+# RULESPATH = $(CHIBIOS)/os/common/startup/ARMv7-M/compilers/GCC/mk
 include $(RULESPATH)/rules.mk
