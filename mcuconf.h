@@ -19,6 +19,15 @@
 
 #define MIMXRT1062_MCUCONF
 
+/* Select USB PHY for Host */
+#define USBH_DEBUG_ENABLE                   TRUE
+#define USBH_DEBUG_ENABLE_INFO              TRUE
+#define USBH_DEBUG_MULTI_HOST               FALSE
+#define USBH_DEBUG_BUFFER                   25000
+
+#define MIMXRT1062_USBH_USE_OTG1            FALSE
+#define MIMXRT1062_USBH_USE_OTG2            TRUE
+
 /* The NXP USB stack uses more stack space than the default 256 byte of thread
  * working area for the test command can fit, so make some more room: */
 #define SHELL_CMD_TEST_WA_SIZE              THD_WORKING_AREA_SIZE(1024)

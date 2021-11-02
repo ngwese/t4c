@@ -26,21 +26,6 @@
 
 #include "usbcfg.h"
 
-/* This demo can be customized in scope for easier debugging.
- *
- * Define one of the following: */
-
-/* Run rt and oslib test suite to serial console: */
-//#define DEMO_MODE_TESTS_TO_SERIAL
-
-/* Provide an interactive shell on serial console.
- * You can run the tests using the test command: */
-//#define DEMO_MODE_SHELL_ON_SERIAL
-
-/* Provide an interactive shell on serial console over USB.
- * This mode does not require any extra serial hardware: */
-#define DEMO_MODE_SHELL_ON_USB_SERIAL
-
 /*
  * Serial 1 (LPUART1) corresponds to Pin 24 on the Teensy 4.1, or to the built-in
  * usb-to-serial on the debug probe of the MIMXRT1060-EVK.
@@ -66,12 +51,7 @@ static THD_FUNCTION(Thread1, arg) {
 static const ShellCommand commands[] = {{NULL, NULL}};
 
 static const ShellConfig shell_cfg1 = {
-#ifdef DEMO_MODE_SHELL_ON_USB_SERIAL
   (BaseSequentialStream *)&SDU1,
-#else
-  (BaseSequentialStream *)MYSERIAL,
-#endif
-
   commands
 };
 
@@ -111,7 +91,7 @@ int main(void) {
   chSysInit();
 
   chSemObjectInit(&scls, 0);
-  
+
   /*
    * Activates MYSERIAL with 115200 baud.
    */
@@ -121,24 +101,14 @@ int main(void) {
   };
   sdStart(MYSERIAL, &sc);
 
-  chprintf((BaseSequentialStream*)MYSERIAL, "ChibiOS Teensy 4.1 demo\r\n");
+  chprintf((BaseSequentialStream*)MYSERIAL, "t4c\r\n");
 
   /*
    * Creates the blinker thread.
    */
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
 
-#if defined(DEMO_MODE_TESTS_TO_SERIAL)
-  test_execute((BaseSequentialStream *)MYSERIAL, &rt_test_suite);
-  test_execute((BaseSequentialStream *)MYSERIAL, &oslib_test_suite);
-#elif defined(DEMO_MODE_SHELL_ON_SERIAL)
-  while (true) {
-    chprintf((BaseSequentialStream*)MYSERIAL, "Starting serial shell\r\n");
-    thread_t *shelltp = chThdCreateFromHeap(NULL, SHELL_WA_SIZE, "shell", NORMALPRIO + 1, shellThread, (void *)&shell_cfg1);
-    chThdWait(shelltp); /* Waiting termination.             */
-  }
-#elif defined(DEMO_MODE_SHELL_ON_USB_SERIAL)
-  chprintf((BaseSequentialStream*)MYSERIAL, "Starting USB serial\r\n");
+  chprintf((BaseSequentialStream*)MYSERIAL, "starting usb serial\r\n");
   /*
    * Initializes a serial-over-USB CDC driver.
    */
@@ -168,9 +138,6 @@ int main(void) {
     }
     chThdSleepSeconds(1);
   }
-#else
-#error One of DEMO_MODE_TESTS_TO_SERIAL, DEMO_MODE_SHELL_ON_SERIAL or DEMO_MODE_SHELL_ON_USB_SERIAL must be defined
-#endif
 
   return 0;
 }

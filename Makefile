@@ -83,7 +83,7 @@ endif
 #
 
 # Define project name here
-PROJECT = ch
+PROJECT = t4c
 
 # Imported source files and paths
 CHIBIOS = ./dep/chibios
@@ -217,6 +217,9 @@ ULIBDIR =
 
 # List all user libraries here
 ULIBS =
+
+flash: build/$(PROJECT).hex
+  teensy_loader_cli --mcu=TEENSY41 -w -v build/$(PROJECT).hex
 
 #
 # End of user defines
